@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/vega@5.25.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.14.1"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.22.2"></script>
+</head>
+<body>
+  <div id="vis"/>
+  <script>
+    const spec = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "Populated Cities",
+  "width": 800,
+  "height": 400,
+  "projection": {"type": "equalEarth"},
+  "layer": [
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/Saginton/Homeowrk9/main/ne_10m_ocean.json",
+        "format": {"type": "topojson", "feature": "ne_10m_ocean"}
+      },
+      "mark": {"type": "geoshape", "fill": "skyblue"}
+    },
+    {
+      "data": {
+        "url": "https://github.com/Saginton/Homeowrk9/blob/main/ne_110m_graticules_30.json",
+        "format": {"type": "topojson", "feature": "ne_110m_graticules_30"}
+      },
+      "mark": {"type": "geoshape", "fill": "null", "stroke": "lightgrey"}
+    },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/Saginton/Homeowrk9/main/ne_110m_populated_places.json",
+        "format": {"type": "topojson", "feature": "ne_110m_populated_places"}
+      },
+      "mark": {"type": "geoshape"}
+    },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/JiazhouLiu/FIT3179/main/VegaLite/2_symbol_map/data/earthquake.csv"
+      },
+      "mark": {"type": "circle", "tooltip": {"content": "data"}},
+      "encoding": {
+        "longitude": {"field": "longitude", "type": "quantitative"},
+        "latitude": {"field": "latitude", "type": "quantitative"},
+        "size": {
+          "field": "mag",
+          "type": "quantitative",
+          "title": "Magnitude (Richter scale)",
+          "scale": {"domain": [4, 8]}
+        },
+        "color": {
+          "field": "depth",
+          "type": "quantitative",
+          "title": "Depth in km",
+          "scale": {"scheme": "reds"}
+        }
+      }
+    }
+  ],
+  "config": {}
+};
+    vegaEmbed("#vis", spec, {mode: "vega-lite"}).then(console.log).catch(console.warn);
+  </script>
+</body>
+</html>
